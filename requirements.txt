@@ -1,3 +1,6 @@
-nltk
-streamlit
+numpy
+opencv-python-headless
+scikit-learn
+scikit-image
 joblib
+streamlit
