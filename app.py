@@ -10,8 +10,8 @@ HOG_PIXELS_PER_CELL = (16, 16)
 HOG_CELLS_PER_BLOCK = (2, 2)
 
 # Load model + scaler
-svm_model = joblib.load("svm_model.pkl")
-scaler = joblib.load("scaler.pkl")
+svm_model = joblib.load("svm_model.joblib")
+scaler = joblib.load("scaler.joblib")
 
 def extract_hog_features_from_image(image):
     img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
