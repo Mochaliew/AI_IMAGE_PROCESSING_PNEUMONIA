@@ -37,10 +37,14 @@ def load_models():
 models = load_models()
 
 # Feature extraction for HOG + SVM
+svm_model = joblib.load("svm_model.joblib")
+scaler = joblib.load("scaler.joblib")
+
 def extract_hog_features_from_image(image):
     img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     img_gray = cv2.resize(img_gray, IMG_SIZE)
     img_gray = cv2.equalizeHist(img_gray)
+
     features = hog(
         img_gray,
         orientations=HOG_ORIENTATIONS,
