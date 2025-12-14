@@ -4,7 +4,7 @@ scikit-image
 scikit-learn
 joblib
 numpy
-tensorflow==2.15.0
+tensorflow
 torch
 torchvision
 Pillow
