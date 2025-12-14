@@ -56,17 +56,27 @@ class ChestXrayCNN(nn.Module):
         x = self.fc(x)
         return x
 
-# Load models
-svm_model = joblib.load("svm_model.joblib")
-scaler = joblib.load("scaler.joblib")
-mobilenet_model = keras.models.load_model("best_model.keras")
+@st.cache_resource
+def load_models():
+    """Load all models once and cache them"""
+    # Load SVM models
+    svm = joblib.load("svm_model.joblib")
+    scaler = joblib.load("scaler.joblib")
+    
+    # Load MobileNetV2
+    mobilenet = keras.models.load_model("best_model.keras")
+    
+    # Load Custom CNN
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    cnn = ChestXrayCNN(num_classes=3)
+    cnn.load_state_dict(torch.load("best_chest_xray_model.pth", map_location=device))
+    cnn.to(device)
+    cnn.eval()
+    
+    return svm, scaler, mobilenet, cnn, device
 
-# Load Custom CNN
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-custom_cnn = ChestXrayCNN(num_classes=3)
-custom_cnn.load_state_dict(torch.load("best_chest_xray_model.pth", map_location=device))
-custom_cnn.to(device)
-custom_cnn.eval()
+# Load models
+svm_model, scaler, mobilenet_model, custom_cnn, device = load_models()
 
 def extract_hog_features_from_image(image):
     img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
