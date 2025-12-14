@@ -4,9 +4,11 @@ import cv2
 from skimage.feature import hog
 import joblib
 from tensorflow import keras
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
 
 IMG_SIZE = (96, 96)
+IMG_SIZE_MOBILENET = (224, 224)
 HOG_ORIENTATIONS = 9
 HOG_PIXELS_PER_CELL = (16, 16)
 HOG_CELLS_PER_BLOCK = (2, 2)
@@ -34,9 +36,9 @@ def extract_hog_features_from_image(image):
 
 def preprocess_for_mobilenet(image):
     img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    img_resized = cv2.resize(img_rgb, (224, 224))
-    img_normalized = img_resized / 255.0
-    img_batch = np.expand_dims(img_normalized, axis=0)
+    img_resized = cv2.resize(img_rgb, IMG_SIZE_MOBILENET)
+    img_preprocessed = preprocess_input(img_resized)
+    img_batch = np.expand_dims(img_preprocessed, axis=0)
     return img_batch
 
 st.title("Pneumonia Detection (HOG + SVM & MobileNetV2)")
