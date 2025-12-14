@@ -5,7 +5,7 @@ from skimage.feature import hog
 import joblib
 from tensorflow import keras
 
-IMG_SIZE = (128, 128)
+IMG_SIZE = (96, 96)
 HOG_ORIENTATIONS = 9
 HOG_PIXELS_PER_CELL = (16, 16)
 HOG_CELLS_PER_BLOCK = (2, 2)
