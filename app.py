@@ -18,24 +18,6 @@ mobilenet_model = keras.models.load_model("best_model.keras")
 
 CLASS_NAMES = ['NORMAL', 'BACTERIAL', 'VIRAL']
 
-expected_features = scaler.n_features_in_
-st.sidebar.info(f"Model expects: **{expected_features}** features")
-
-# Calculate current HOG features
-h, w = IMG_SIZE
-cells_x = w // HOG_PIXELS_PER_CELL[0]
-cells_y = h // HOG_PIXELS_PER_CELL[1]
-blocks_x = cells_x - HOG_CELLS_PER_BLOCK[0] + 1
-blocks_y = cells_y - HOG_CELLS_PER_BLOCK[1] + 1
-current_features = blocks_x * blocks_y * HOG_CELLS_PER_BLOCK[0] * HOG_CELLS_PER_BLOCK[1] * HOG_ORIENTATIONS
-
-st.sidebar.warning(f"Current config produces: **{current_features}** features")
-
-if expected_features != current_features:
-    st.sidebar.error("❌ **MISMATCH!** Update HOG parameters")
-else:
-    st.sidebar.success("✅ HOG config matches!")
-
 def extract_hog_features_from_image(image):
     img_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     img_gray = cv2.resize(img_gray, IMG_SIZE)
